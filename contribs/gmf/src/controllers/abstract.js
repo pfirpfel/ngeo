@@ -611,8 +611,10 @@ gmf.AbstractController.prototype.initLanguage = function() {
  * @private
  */
 gmf.AbstractController.prototype.updateCurrentTheme_ = function() {
+  this.gmfThemeManager.setThemeName('', true);
   this.gmfThemes_.getThemesObject().then((themes) => {
-    const themeName = this.permalink_.defaultThemeNameFromFunctionalities();
+    const themeName = this.permalink_.defaultThemeNameFromFunctionalities() || this.permalink_.defaultThemeName();
+
     if (themeName) {
       const theme = gmf.Themes.findThemeByName(themes, /** @type {string} */ (themeName));
       if (theme) {
