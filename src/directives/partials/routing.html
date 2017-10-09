@@ -1,5 +1,5 @@
-<div class="gmf-routing">
-  <div class="gmf-routing-start form-group">
+<div class="ngeo-routing">
+  <div class="ngeo-routing-start form-group">
     <ngeo-routing-feature
             ngeo-routing-feature-map="routeCtrl.map"
             ngeo-routing-feature-feature="routeCtrl.startFeature_"
@@ -10,7 +10,7 @@
     </ngeo-routing-feature>
   </div>
 
-    <div class="gmf-routing-vias form-group" ng-repeat="(index, via) in routeCtrl.viaArray">
+    <div class="ngeo-routing-vias form-group" ng-repeat="(index, via) in routeCtrl.viaArray">
       <div class="form-inline">
         <div class="form-group">
           <ngeo-routing-feature
@@ -28,7 +28,7 @@
       </div>
     </div>
 
-  <div class="gmf-routing-destination form-group">
+  <div class="ngeo-routing-destination form-group">
     <ngeo-routing-feature
             ngeo-routing-feature-map="routeCtrl.map"
             ngeo-routing-feature-feature="routeCtrl.targetFeature_"
@@ -62,7 +62,7 @@
     </div>
   </div>
 
-  <div class="gmf-routing-error form-group clearfix"
+  <div class="ngeo-routing-error form-group clearfix"
        ng-hide="routeCtrl.errorMessage === ''">
     {{routeCtrl.errorMessage}}
   </div>

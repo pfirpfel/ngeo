@@ -17,7 +17,7 @@ goog.require('gmf.editfeatureselectorDirective');
 /** @suppress {extraRequire} */
 goog.require('gmf.elevationDirective');
 /** @suppress {extraRequire} */
-goog.require('gmf.routingComponent');
+goog.require('ngeo.routingComponent');
 /** @suppress {extraRequire} */
 goog.require('ngeo.routingFeatureComponent');
 /** @suppress {extraRequire} */
