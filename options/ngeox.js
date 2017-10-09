@@ -2435,3 +2435,20 @@ ngeox.ImportWmsGetCapItemOptions;
  * }}
  */
 ngeox.ImportWmtsGetCapItemOptions;
+
+/**
+ * @typedef {{
+ *     name: (string),
+ *     coordinate: (ol.Coordinate)
+ * }}
+ */
+ngeox.NominatimSearchResult;
+
+/**
+ * @typedef {{
+ *     display_name: (string),
+ *     lon: (number),
+ *     lat: (number)
+ * }}
+ */
+ngeox.NominatimSearchResponseResult;

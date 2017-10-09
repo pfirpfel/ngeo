@@ -1,7 +1,7 @@
 goog.provide('gmf.nominatimInputComponent');
 
 goog.require('gmf');
-goog.require('gmf.NominatimService');
+goog.require('ngeo.NominatimService');
 
 gmf.module.value('gmfNominatimInputTemplateUrl',
   /**

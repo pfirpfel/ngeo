@@ -673,25 +673,8 @@ gmfx.PermalinkListenerKeys;
 
 /**
  * @typedef {{
- *     name: (string),
- *     coordinate: (ol.Coordinate)
- * }}
- */
-gmfx.NominatimSearchResult;
-
-/**
- * @typedef {{
- *     display_name: (string),
- *     lon: (number),
- *     lat: (number)
- * }}
- */
-gmfx.NominatimSearchResponseResult;
-
-/**
- * @typedef {{
  *     feature: (?ol.Feature),
- *     onSelect: (function(gmfx.NominatimSearchResult))
+ *     onSelect: (function(ngeox.NominatimSearchResult))
  * }}
  */
 gmfx.RoutingVia;
