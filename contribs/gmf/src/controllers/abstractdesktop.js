@@ -21,7 +21,7 @@ goog.require('gmf.routingComponent');
 /** @suppress {extraRequire} */
 goog.require('gmf.routingFeatureComponent');
 /** @suppress {extraRequire} */
-goog.require('gmf.nominatimInputComponent');
+goog.require('ngeo.nominatimInputComponent');
 /** @suppress {extraRequire} */
 goog.require('gmf.filterselectorComponent');
 /** @suppress {extraRequire} */

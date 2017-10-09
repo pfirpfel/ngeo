@@ -2,7 +2,7 @@ goog.provide('gmf.routingComponent');
 
 goog.require('gmf');
 goog.require('gmf.RoutingService');
-goog.require('gmf.NominatimService');
+goog.require('ngeo.NominatimService');
 goog.require('ol.format.GeoJSON');
 
 
