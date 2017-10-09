@@ -107,13 +107,13 @@ gmf.GmfRoutingController = function($injector, $scope, gmfRoutingService, gmfNom
    *              profile: 'routed-car' // used as part of the query
    *            }
    *          ]
-   * @type {Array<gmfx.RoutingProfile>}
+   * @type {Array<ngeox.RoutingProfile>}
    * @export
    */
   this.routingProfiles = this.routingOptions_.profiles || [];
 
   /**
-   * @type {?gmfx.RoutingProfile}
+   * @type {?ngeox.RoutingProfile}
    * @export
    */
   this.selectedRoutingProfile = this.routingProfiles.length > 0 ? this.routingProfiles[0] : null;
@@ -165,7 +165,7 @@ gmf.GmfRoutingController = function($injector, $scope, gmfRoutingService, gmfNom
   this.targetFeature_ = null;
 
   /**
-   * @type {Array.<gmfx.RoutingVia>}
+   * @type {Array.<ngeox.RoutingVia>}
    * @export
    */
   this.viaArray = [];
@@ -380,7 +380,7 @@ gmf.GmfRoutingController.prototype.calculateRoute = function() {
  * @export
  */
 gmf.GmfRoutingController.prototype.addVia = function() {
-  this.viaArray.push(/** @type{gmfx.RoutingVia} */({
+  this.viaArray.push(/** @type{ngeox.RoutingVia} */({
     feature: null,
     onSelect: null
   }));

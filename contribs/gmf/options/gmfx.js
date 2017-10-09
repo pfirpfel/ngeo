@@ -670,28 +670,3 @@ gmfx.OpenPopup_
  * }}
  */
 gmfx.PermalinkListenerKeys;
-
-/**
- * @typedef {{
- *     feature: (?ol.Feature),
- *     onSelect: (function(ngeox.NominatimSearchResult))
- * }}
- */
-gmfx.RoutingVia;
-
-/**
- * @typedef {{
- *     label: (string),
- *     profile: (string)
- * }}
- */
-gmfx.RoutingProfile;
-
-/**
- * @typedef {{
- *     backendUrl: (string|undefined),
- *     profiles: (Array.<gmfx.RoutingProfile>|undefined),
- *     searchDefaultParams: (Object.<string, string>|undefined)
- * }}
- */
-gmfx.RoutingOptions;
