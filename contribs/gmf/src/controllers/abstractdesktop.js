@@ -19,7 +19,7 @@ goog.require('gmf.elevationDirective');
 /** @suppress {extraRequire} */
 goog.require('gmf.routingComponent');
 /** @suppress {extraRequire} */
-goog.require('gmf.routingFeatureComponent');
+goog.require('ngeo.routingFeatureComponent');
 /** @suppress {extraRequire} */
 goog.require('ngeo.nominatimInputComponent');
 /** @suppress {extraRequire} */
