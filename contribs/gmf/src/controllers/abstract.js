@@ -149,6 +149,8 @@ gmf.AbstractController = function(config, $scope, $injector) {
       this.updateCurrentTheme_();
       this.updateCurrentBackgroundLayer_(true);
     }
+    // Reset them name, to allow displaying the "loading" message
+    this.gmfThemeManager.setThemeName('', true);
     // Reload themes when login status changes.
     this.gmfThemes_.loadThemes(roleId);
     this.updateHasEditableLayers_();
