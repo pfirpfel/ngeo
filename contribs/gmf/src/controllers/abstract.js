@@ -57,12 +57,13 @@ gmf.module.value('ngeoExportFeatureFormats', [
  * @param {gmfx.Config} config A part of the application config.
  * @param {angular.Scope} $scope Scope.
  * @param {angular.$injector} $injector Main injector.
+ * @param {gmf.Themes} gmfThemes gmf Themes service.
  * @constructor
  * @ngdoc controller
  * @ngInject
  * @export
  */
-gmf.AbstractController = function(config, $scope, $injector) {
+gmf.AbstractController = function(config, $scope, $injector, gmfThemes) {
 
   /**
    * Location service
@@ -100,7 +101,7 @@ gmf.AbstractController = function(config, $scope, $injector) {
    * @type {gmf.Themes}
    * @private
    */
-  this.gmfThemes_ = $injector.get('gmfThemes');
+  this.gmfThemes_ = gmfThemes;
 
   /**
    * Permalink service
@@ -144,18 +145,23 @@ gmf.AbstractController = function(config, $scope, $injector) {
       }
     });
 
+    // Reset them name, to allow displaying the "loading" message
+    this.gmfThemeManager.setThemeName('', true);
     // Reload theme and background layer when login status changes.
     if (evt.type !== gmf.AuthenticationEventType.READY) {
       this.updateCurrentTheme_();
       this.updateCurrentBackgroundLayer_(true);
     }
-    // Reset them name, to allow displaying the "loading" message
-    this.gmfThemeManager.setThemeName('', true);
     // Reload themes when login status changes.
     this.gmfThemes_.loadThemes(roleId);
     this.updateHasEditableLayers_();
   }.bind(this);
 
+  const reloadTheme = () => {
+    console.log('moep');
+  };
+
+  //ol.events.listen(this.gmfThemes, gmf.ThemesEventType.CHANGE, reloadTheme);
   ol.events.listen(gmfAuthentication, gmf.AuthenticationEventType.READY, userChange);
   ol.events.listen(gmfAuthentication, gmf.AuthenticationEventType.LOGIN, userChange);
   ol.events.listen(gmfAuthentication, gmf.AuthenticationEventType.LOGOUT, userChange);

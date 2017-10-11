@@ -484,30 +484,35 @@ gmf.Themes.prototype.loadThemes = function(opt_roleId) {
     this.loaded_ = false;
   }
 
-  this.$http_.get(this.treeUrl_, {
-    params: opt_roleId !== undefined ? {
-      'role': opt_roleId,
-      'cache_version': this.cacheVersion_
-    } : {
-      'cache_version': this.cacheVersion_
-    },
-    cache: false,
-    withCredentials: true
-  }).then((response) => {
-    if (response.data.errors.length != 0) {
-      const message = `The themes contain some errors:\n${
-        response.data.errors.join('\n')}`;
-      console.error(message);
-      if (this.ngeoLocation_ !== null && this.ngeoLocation_.hasParam('debug')) {
-        window.alert(message);
+  console.log('load theme in 5s');
+
+  setTimeout(() => {
+    console.log('load theme');
+    this.$http_.get(this.treeUrl_, {
+      params: opt_roleId !== undefined ? {
+        'role': opt_roleId,
+        'cache_version': this.cacheVersion_
+      } : {
+        'cache_version': this.cacheVersion_
+      },
+      cache: false,
+      withCredentials: true
+    }).then((response) => {
+      if (response.data.errors.length != 0) {
+        const message = `The themes contain some errors:\n${
+          response.data.errors.join('\n')}`;
+        console.error(message);
+        if (this.ngeoLocation_ !== null && this.ngeoLocation_.hasParam('debug')) {
+          window.alert(message);
+        }
       }
-    }
-    this.deferred_.resolve(response.data);
-    this.dispatchEvent(gmf.ThemesEventType.CHANGE);
-    this.loaded_ = true;
-  }, (response) => {
-    this.deferred_.reject(response);
-  });
+      this.deferred_.resolve(response.data);
+      this.dispatchEvent(gmf.ThemesEventType.CHANGE);
+      this.loaded_ = true;
+    }, (response) => {
+      this.deferred_.reject(response);
+    });
+  }, 5000);
 };
 
 
