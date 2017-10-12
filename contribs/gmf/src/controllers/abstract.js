@@ -63,7 +63,7 @@ gmf.module.value('ngeoExportFeatureFormats', [
  * @ngInject
  * @export
  */
-gmf.AbstractController = function(config, $scope, $injector, gmfThemes) {
+gmf.AbstractController = function(config, $scope, $injector) {
 
   /**
    * Location service
@@ -101,7 +101,7 @@ gmf.AbstractController = function(config, $scope, $injector, gmfThemes) {
    * @type {gmf.Themes}
    * @private
    */
-  this.gmfThemes_ = gmfThemes;
+  this.gmfThemes_ = $injector.get('gmfThemes');
 
   /**
    * Permalink service
