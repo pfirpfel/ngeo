@@ -57,7 +57,6 @@ gmf.module.value('ngeoExportFeatureFormats', [
  * @param {gmfx.Config} config A part of the application config.
  * @param {angular.Scope} $scope Scope.
  * @param {angular.$injector} $injector Main injector.
- * @param {gmf.Themes} gmfThemes gmf Themes service.
  * @constructor
  * @ngdoc controller
  * @ngInject
@@ -147,21 +146,20 @@ gmf.AbstractController = function(config, $scope, $injector) {
 
     // Reset them name, to allow displaying the "loading" message
     this.gmfThemeManager.setThemeName('', true);
-    // Reload theme and background layer when login status changes.
-    if (evt.type !== gmf.AuthenticationEventType.READY) {
-      this.updateCurrentTheme_();
-      this.updateCurrentBackgroundLayer_(true);
-    }
+
     // Reload themes when login status changes.
     this.gmfThemes_.loadThemes(roleId);
     this.updateHasEditableLayers_();
   }.bind(this);
 
   const reloadTheme = () => {
-    console.log('moep');
+    // Reload theme and background layer when login status changes.
+    this.updateCurrentTheme_();
+    this.updateCurrentBackgroundLayer_(true);
+    console.log('reloadTheme');
   };
 
-  //ol.events.listen(this.gmfThemes, gmf.ThemesEventType.CHANGE, reloadTheme);
+  ol.events.listen(this.gmfThemes_, gmf.ThemesEventType.CHANGE, reloadTheme);
   ol.events.listen(gmfAuthentication, gmf.AuthenticationEventType.READY, userChange);
   ol.events.listen(gmfAuthentication, gmf.AuthenticationEventType.LOGIN, userChange);
   ol.events.listen(gmfAuthentication, gmf.AuthenticationEventType.LOGOUT, userChange);
@@ -621,6 +619,7 @@ gmf.AbstractController.prototype.initLanguage = function() {
 gmf.AbstractController.prototype.updateCurrentTheme_ = function() {
   this.gmfThemes_.getThemesObject().then((themes) => {
     const themeName = this.permalink_.defaultThemeNameFromFunctionalities();
+    // ^is null if on log out
     if (themeName) {
       const theme = gmf.Themes.findThemeByName(themes, /** @type {string} */ (themeName));
       if (theme) {

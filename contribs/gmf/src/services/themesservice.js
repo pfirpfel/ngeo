@@ -474,8 +474,6 @@ gmf.Themes.prototype.hasNodeEditableLayers_ = function(node) {
  */
 gmf.Themes.prototype.loadThemes = function(opt_roleId) {
 
-  goog.asserts.assert(this.treeUrl_, 'gmfTreeUrl should be defined.');
-
   if (this.loaded_) {
     // reload the themes
     this.deferred_ = this.$q_.defer();
@@ -488,6 +486,7 @@ gmf.Themes.prototype.loadThemes = function(opt_roleId) {
 
   setTimeout(() => {
     console.log('load theme');
+    goog.asserts.assert(this.treeUrl_, 'gmfTreeUrl should be defined.');
     this.$http_.get(this.treeUrl_, {
       params: opt_roleId !== undefined ? {
         'role': opt_roleId,
