@@ -197,9 +197,11 @@ gmf.Authentication.prototype.login = function(login, pwd) {
  * @export
  */
 gmf.Authentication.prototype.logout = function() {
+  const isIntranet = this.user_['username'] === 'Intranet';
   const url = `${this.baseUrl_}/${gmf.AuthenticationRouteSuffix.LOGOUT}`;
-  return this.$http_.get(url, {withCredentials: true}).then(
-    this.resetUser_.bind(this));
+  return this.$http_.get(url, {withCredentials: true}).then(() => {
+    this.resetUser_(isIntranet);
+  });
 };
 
 
@@ -279,13 +281,17 @@ gmf.Authentication.prototype.setUser_ = function(respData, emitEvent) {
 /**
  * @private
  */
-gmf.Authentication.prototype.resetUser_ = function() {
+gmf.Authentication.prototype.resetUser_ = function(isIntranet) {
+  isIntranet = isIntranet || false;
   for (const key in this.user_) {
     this.user_[key] = null;
   }
   this.dispatchEvent(new gmf.AuthenticationEvent(
     gmf.AuthenticationEventType.LOGOUT, this.user_));
-  this.load_();
+
+  if (!isIntranet) {
+    this.load_();
+  }
 };
 
 
