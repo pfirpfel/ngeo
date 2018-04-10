@@ -35,6 +35,13 @@ app.MainController = function($sce, ngeoCreatePopup) {
 
 };
 
+/**
+ * @export
+ */
+app.MainController.prototype.moep = function(){
+  console.log('moep');
+};
+
 
 /**
  * @export
@@ -43,7 +50,7 @@ app.MainController.prototype.simplePopup = function() {
   const popup = this.createPopup_();
   popup.setAutoDestroy(true);
   popup.setTitle('Simple popup');
-  const content = this.sce_.trustAsHtml('This is a simple 400x300 px popup.');
+  const content = this.sce_.trustAsHtml('This is a simple 400x300 px popup.<button ng-click="ctrl.moep();">huhu</button>');
   popup.setContent(content);
   popup.setWidth('400px');
   popup.setHeight('300px');
