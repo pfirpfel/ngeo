@@ -544,6 +544,20 @@ gmf.controllers.AbstractAppController = function(config, $scope, $injector) {
    */
   this.displaywindowContent = null;
 
+
+  /**
+   * @type {?string}
+   * @export
+   */
+  this.displaywindowTemplateContent = null;
+
+
+  /**
+   * @type {?angular.Scope}
+   * @export
+   */
+  this.displaywindowTemplateScope = null;
+
   /**
    * @type {string}
    * @export
@@ -579,6 +593,12 @@ gmf.controllers.AbstractAppController = function(config, $scope, $injector) {
    * @export
    */
   this.displaywindowWidth = null;
+
+  /**
+   * @type {boolean}
+   * @export
+   */
+  this.displaywindowDraggable = true;
 };
 
 

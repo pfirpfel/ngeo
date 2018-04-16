@@ -61,15 +61,18 @@ ngeo.message.displaywindowComponent.Controller_ = class {
    * - it supports being dragged
    * - it supports being resized
    *
+   * @param {!angular.Scope} $scope Scope.
    * @param {!jQuery} $element Element.
+   * @param {angular.$compile} $compile The compile provider.
    * @param {!angular.$sce} $sce Angular sce service.
+   * @param {angular.$interpolate} $interpolate
    * @private
    * @struct
    * @ngInject
    * @ngdoc controller
    * @ngname ngeoDisplaywindowComponentController
    */
-  constructor($element, $sce) {
+  constructor($scope, $element, $compile, $sce, $interpolate) {
 
     // === Binding Properties ===
 
@@ -84,6 +87,17 @@ ngeo.message.displaywindowComponent.Controller_ = class {
      * @export
      */
     this.content;
+
+    /**
+     * @type {?string}
+     * @export
+     */
+    this.contentTemplate;
+
+    /**
+     * @type {?angular.Scope}
+     */
+    this.contentScope;
 
     /**
      * @type {boolean}
@@ -143,16 +157,34 @@ ngeo.message.displaywindowComponent.Controller_ = class {
     // === Injected Properties ===
 
     /**
+     * @type {angular.Scope}
+     * @private
+     */
+    this.$scope_ = $scope;
+
+    /**
      * @type {!jQuery}
      * @private
      */
     this.element_ = $element;
 
     /**
+     * @type {angular.$compile}
+     * @private
+     */
+    this.$compile_ = $compile;
+
+    /**
      * @type {!angular.$sce}
      * @private
      */
     this.sce_ = $sce;
+
+    /**
+     * @type {angular.$interpolate}
+     * @private
+     */
+    this.$interpolate_ = $interpolate;
   }
 
   /**
@@ -163,6 +195,8 @@ ngeo.message.displaywindowComponent.Controller_ = class {
     // Initialize binding properties
     this.clearOnClose = this.clearOnClose !== false;
     this.content = this.content || null;
+    this.contentTemplate = this.contentTemplate || null;
+    this.contentScope = this.contentScope || null;
     this.desktop = this.desktop !== false;
     this.draggableContainment = this.draggableContainment || 'document';
     this.height = this.height || null;
@@ -189,6 +223,14 @@ ngeo.message.displaywindowComponent.Controller_ = class {
         'minHeight': 240,
         'minWidth': 240
       });
+    }
+
+    if (this.contentTemplate) {
+      const scope = this.contentScope || this.$scope_;
+      const compiled = this.$compile_(this.contentTemplate)(scope);
+      //const compiled = this.$interpolate_(this.contentTemplate)(scope);
+      const popupWindow = this.element_.find('.ngeo-displaywindow .windowcontainer .animation-container');
+      popupWindow.append(compiled);
     }
   }
 
@@ -240,6 +282,8 @@ ngeo.message.displaywindowComponent.component('ngeoDisplaywindow', {
   bindings: {
     'clearOnClose': '<',
     'content': '=',
+    'contentTemplate': '<',
+    'contentScope': '<',
     'desktop': '<',
     'draggable': '<',
     'draggableContainment': '<',

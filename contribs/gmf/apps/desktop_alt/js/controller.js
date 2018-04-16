@@ -61,12 +61,13 @@ app.desktop_alt.module.value('ngeoMeasureDecimals', 2);
  * @param {ngeo.misc.File} ngeoFile The file service.
  * @param {gettext} gettext The gettext service
  * @param {angular.$q} $q Angular $q.
+ * @param {angular.$timeout} $timeout Angular timeout service.
  * @constructor
  * @extends {gmf.controllers.AbstractDesktopController}
  * @ngInject
  * @export
  */
-app.desktop_alt.Controller = function($scope, $injector, ngeoFile, gettext, $q) {
+app.desktop_alt.Controller = function($scope, $injector, ngeoFile, gettext, $q, $timeout) {
   gmf.controllers.AbstractDesktopController.call(this, {
     srid: 21781,
     mapViewConfig: {
@@ -157,6 +158,24 @@ app.desktop_alt.Controller = function($scope, $injector, ngeoFile, gettext, $q) 
    * @export
    */
   this.bgOpacityOptions = 'Test aus Olten';
+
+  /**
+   * @export
+   * @type {boolean}
+   */
+  this.falseValue = false
+  this.displaywindowDraggable = false;
+
+  this.displaywindowTemplateScope = $scope;
+  this.displaywindowTemplateContent = `
+    <div class="details">{{mainCtrl.bgOpacityOptions}}</div>
+    <div class="details" ng-if="!mainCtrl.falseValue">should appear</div>
+    <div class="details" ng-show="mainCtrl.falseValue">should not be visible</div>
+    <input type="text" ng-model="mainCtrl.bgOpacityOptions" />
+`;
+  $timeout(() => {
+    window.gmfx.openPopup_('popup test');
+  }, 2000);
 };
 ol.inherits(app.desktop_alt.Controller, gmf.controllers.AbstractDesktopController);
 
