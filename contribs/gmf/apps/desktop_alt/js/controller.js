@@ -16,6 +16,8 @@ goog.require('gmf.AbstractDesktopController');
 /** @suppress {extraRequire} */
 goog.require('ngeo.googlestreetviewComponent');
 /** @suppress {extraRequire} */
+goog.require('ngeo.infra3dComponent');
+/** @suppress {extraRequire} */
 goog.require('ngeo.proj.EPSG2056');
 /** @suppress {extraRequire} */
 goog.require('ngeo.proj.EPSG21781');
@@ -152,27 +154,14 @@ app.AlternativeDesktopController = function($scope, $injector, ngeoFile, gettext
    */
   this.infra3DActive = false;
 
-  $scope.$watch(
-    () => this.infra3DActive,
-    this.handleInfra3DActive.bind(this)
-  );
+  /**
+   * @export
+   * @type {string}
+   */
+  this.infra3DUrl = 'https://client-v3.infra3d.ch';
 };
 ol.inherits(app.AlternativeDesktopController, gmf.AbstractDesktopController);
 
-
-app.AlternativeDesktopController.prototype.handleInfra3DActive = function(active) {
-  if (active) {
-    $('.gmf-app-tools .gmf-app-tools-content').addClass('infra3Dopen');
-    const pos = this.map.getView().getCenter();
-    window.infra3d.init('infra3d', 'https://client-v3.infra3d.ch', {
-      'easting': pos[0],
-      'northing': pos[1],
-      'epsg': 21781
-    });
-  } else {
-    $('.gmf-app-tools .gmf-app-tools-content').removeClass('infra3Dopen');
-  }
-}
 
 /**
  * @param {jQuery.Event} event keydown event.

@@ -245,7 +245,12 @@
                 {{'Infra3D'|translate}}
                 <a class="btn close" ng-click="mainCtrl.infra3DActive = false">&times;</a>
               </div>
-              <div id="infra3d"></div>
+              <ngeo-infra3d
+                  active="mainCtrl.infra3DActive"
+                  feature-style="mainCtrl.googleStreetViewStyle"
+                  map="mainCtrl.map"
+                  infra3d-client="mainCtrl.infra3DUrl">
+              </ngeo-infra3d>
             </div>
           </div>
         </div>
