@@ -3,6 +3,9 @@ goog.provide('ngeo.infra3dComponent');
 goog.require('ol.Feature');
 goog.require('ol.Observable');
 goog.require('ol.geom.Point');
+goog.require('ol.style.Style');
+goog.require('ol.style.Text');
+goog.require('ol.style.Fill');
 goog.require('ngeo');
 goog.require('ngeo.FeatureOverlayMgr');
 
@@ -37,11 +40,25 @@ ngeo.Infra3dController = class {
     );
 
     /**
+     * @type {ol.style.Text}
+     */
+    this.textStyle_ = new ol.style.Text({
+      fill: new ol.style.Fill({color: '#279B61'}),
+      font: 'normal 30px FontAwesome',
+      rotation: (-Math.PI) / 4, // rotation in radians
+      stroke: new ol.style.Stroke({color: '#ffffff', width: 3}),
+      text: '\uf124'
+    });
+
+    /**
      * Style for the feature.
      * @type {ol.style.Style|Array.<ol.style.Style>|
      *     ol.FeatureStyleFunction|ol.StyleFunction|undefined}
+     * @export
      */
-    this.featureStyle;
+    this.featureStyle = new ol.style.Style({
+      text: this.textStyle_
+    });
 
     /**
      * @type {!ol.Map}
@@ -115,7 +132,10 @@ ngeo.Infra3dController = class {
     window.infra3d.init(divId, this.infra3dClient, {
       'easting': this.location[0],
       'northing': this.location[1],
-      'epsg': 21781
+      'epsg': 21781,
+      'map': false,
+      'layer': false,
+      'navigation': false
     });
 
     // === Watchers ===
@@ -137,10 +157,7 @@ ngeo.Infra3dController = class {
       this.handleReadyChange_.bind(this)
     );
 
-    // Other initialization
-    if (this.featureStyle) {
-      this.feature_.setStyle(this.featureStyle);
-    }
+    this.feature_.setStyle(this.featureStyle);
 
   }
 
@@ -201,6 +218,10 @@ ngeo.Infra3dController = class {
   handleMapClick_(evt) {
     this.location = evt.coordinate;
     this.scope_.$apply();
+    // send location to infra3d
+    window.infra3d.loadAtPosition(this.location[0], this.location[1], {
+      'epsg': 21781
+    });
   }
 
   /**
@@ -239,10 +260,20 @@ ngeo.Infra3dController = class {
    * Note: There are eleven parameters, but we only use the first two.
    * @param {number} easting Coordinate of the current position.
    * @param {number} northing Coordinate of the current position.
+   * @param {number} height Coordinate of the current position.
+   * @param {number} epsg Epsg-code for the coordinates of the current position.
+   * @param {number} orientation Horizontal orientation of the camera (Azimuth).
    * @see https://www.infra3d.ch/api/apidoc/Reference/#onpositionchanged
    */
-  handleInfra3DOnPositionChanged(easting, northing) {
+  handleInfra3DOnPositionChanged(easting, northing, height, epsg, orientation) {
+    // set icon location
     this.location = /** @type{ol.Coordinate} */ ([easting, northing]);
+
+    // set icon orientation
+    let rotation = orientation - 45; // icon image offset
+    rotation = ((rotation % 360) + 360) % 360; // modulo 360 to enforce positive result
+    rotation *= Math.PI / 180; // convert to radians
+    this.textStyle_.setRotation(rotation);
   }
 };
 
@@ -250,7 +281,6 @@ ngeo.Infra3dController = class {
 ngeo.module.component('ngeoInfra3d', {
   bindings: {
     'active': '<',
-    'featureStyle': '<?',
     'map': '<',
     'infra3dClient': '<'
   },
