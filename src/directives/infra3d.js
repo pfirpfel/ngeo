@@ -175,11 +175,6 @@ ngeo.Infra3dController = class {
 
     this.map.addLayer(this.ennLayer);
 
-    window.infra3d.getEnn(21781, function(enn){
-      const geojson = new ol.format.GeoJSON();
-      const features = geojson.readFeatures(enn);
-      this.ennSource.addFeatures(features);
-    }, this, null);
   }
 
   /**
@@ -226,7 +221,7 @@ ngeo.Infra3dController = class {
     this.point_.setCoordinates(location);
 
 
-    // (3) Update Infra3D position
+    // (3) Update Infra3D position -> infinite loop?
     window.infra3d.lookAt2DPosition(location[0], location[1]);
   }
 
@@ -240,10 +235,9 @@ ngeo.Infra3dController = class {
     this.location = evt.coordinate;
     this.scope_.$apply();
     // send location to infra3d
-    window.infra3d.lookAt2DPosition(location[0], location[1]);
-    // window.infra3d.loadAtPosition(this.location[0], this.location[1], {
-    //   'epsg': 21781
-    // });
+    window.infra3d.loadAtPosition(this.location[0], this.location[1], {
+      'epsg': 21781
+    });
   }
 
   /**
@@ -269,6 +263,11 @@ ngeo.Infra3dController = class {
       this.featureOverlay_.addFeature(this.feature_);
       $('.gmf-app-tools .gmf-app-tools-content').addClass('infra3Dopen');
       window.infra3d.setOnPositionChanged(this.handleInfra3DOnPositionChanged, this);
+      window.infra3d.getEnn(21781, function(enn) {
+        const geojson = new ol.format.GeoJSON();
+        const features = geojson.readFeatures(enn);
+        this.ennSource.addFeatures(features);
+      }, this, null);
     } else {
       this.featureOverlay_.removeFeature(this.feature_);
       $('.gmf-app-tools .gmf-app-tools-content').removeClass('infra3Dopen');
