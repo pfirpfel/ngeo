@@ -288,8 +288,13 @@ ngeo.Infra3dController = class {
    * @see https://www.infra3d.ch/api/apidoc/Reference/#onpositionchanged
    */
   handleInfra3DOnPositionChanged(easting, northing, height, epsg, orientation) {
+    // handle other projection
+    const source = ol.proj.get('EPSG:' + epsg);
+    const target = ol.proj.get('EPSG:21781');
+    const coord = ol.proj.transform(/** @type{ol.Coordinate} */ ([easting, northing]), source, target);
+
     // set icon location
-    this.location = /** @type{ol.Coordinate} */ ([easting, northing]);
+    this.location = coord;
 
     // set icon orientation
     let rotation = orientation - 45; // icon image offset
