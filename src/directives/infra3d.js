@@ -118,6 +118,19 @@ ngeo.Infra3dController = class {
     this.point_ = new ol.geom.Point([0, 0]);
 
     this.feature_.setGeometry(this.point_);
+
+    this.ennSource = new ol.source.Vector({
+      style: new ol.style.Style({
+        stroke: new ol.style.Stroke({
+          color: '#3399CC',
+          width: 3.0
+        })
+      })
+    });
+
+    this.ennLayer = new ol.layer.Vector({
+      source: this.ennSource
+    });
   }
 
   /**
@@ -135,7 +148,8 @@ ngeo.Infra3dController = class {
       'epsg': 21781,
       'map': false,
       'layer': false,
-      'navigation': false
+      'navigation': false,
+      'origin': 'http://localhost:3000'
     });
 
     // === Watchers ===
@@ -159,6 +173,13 @@ ngeo.Infra3dController = class {
 
     this.feature_.setStyle(this.featureStyle);
 
+    this.map.addLayer(this.ennLayer);
+
+    window.infra3d.getEnn(21781, function(enn){
+      const geojson = new ol.format.GeoJSON();
+      const features = geojson.readFeatures(enn);
+      this.ennSource.addFeatures(features);
+    }, this, null);
   }
 
   /**
@@ -219,9 +240,10 @@ ngeo.Infra3dController = class {
     this.location = evt.coordinate;
     this.scope_.$apply();
     // send location to infra3d
-    window.infra3d.loadAtPosition(this.location[0], this.location[1], {
-      'epsg': 21781
-    });
+    window.infra3d.lookAt2DPosition(location[0], location[1]);
+    // window.infra3d.loadAtPosition(this.location[0], this.location[1], {
+    //   'epsg': 21781
+    // });
   }
 
   /**

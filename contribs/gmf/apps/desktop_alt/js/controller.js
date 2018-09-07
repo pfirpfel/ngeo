@@ -158,7 +158,7 @@ app.AlternativeDesktopController = function($scope, $injector, ngeoFile, gettext
    * @export
    * @type {string}
    */
-  this.infra3DUrl = 'https://client-v3.infra3d.ch';
+  this.infra3DUrl = 'https://client-v3.infra3d.ch/';
 };
 ol.inherits(app.AlternativeDesktopController, gmf.AbstractDesktopController);
 
