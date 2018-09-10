@@ -148,8 +148,7 @@ ngeo.Infra3dController = class {
       'epsg': 21781,
       'map': false,
       'layer': false,
-      'navigation': false,
-      'origin': 'http://localhost:3000'
+      'navigation': false
     });
 
     // === Watchers ===
@@ -234,10 +233,12 @@ ngeo.Infra3dController = class {
   handleMapClick_(evt) {
     this.location = evt.coordinate;
     this.scope_.$apply();
+    // reproject coordinates
+    const source = ol.proj.get('EPSG:21781');
+    const target = ol.proj.get('EPSG:2056');
+    const coord = ol.proj.transform(/** @type{ol.Coordinate} */ ([this.location[0], this.location[1]]), source, target);
     // send location to infra3d
-    window.infra3d.loadAtPosition(this.location[0], this.location[1], {
-      'epsg': 21781
-    });
+    window.infra3d.lookAt2DPosition(coord[0], coord[1]);
   }
 
   /**
