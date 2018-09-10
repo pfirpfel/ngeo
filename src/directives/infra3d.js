@@ -8,6 +8,8 @@ goog.require('ol.style.Text');
 goog.require('ol.style.Fill');
 goog.require('ngeo');
 goog.require('ngeo.FeatureOverlayMgr');
+goog.require('ngeo.ToolActivate');
+goog.require('ngeo.ToolActivateMgr');
 
 
 /**
@@ -19,12 +21,19 @@ ngeo.Infra3dController = class {
    * @param {!angular.Scope} $scope Scope.
    * @param {!ngeo.FeatureOverlayMgr} ngeoFeatureOverlayMgr Ngeo FeatureOverlay
    *     manager.
+   * @param {!ngeo.ToolActivateMgr} ngeoToolActivateMgr Ngeo ToolActivate manager
+   *     service.
    * @private
    * @ngInject
    * @ngdoc controller
    * @ngname NgeoInfra3dController
    */
-  constructor($scope, ngeoFeatureOverlayMgr) {
+  constructor($scope, ngeoFeatureOverlayMgr, ngeoToolActivateMgr) {
+    /**
+     * @type {!ngeo.ToolActivateMgr}
+     * @private
+     */
+    this.ngeoToolActivateMgr_ = ngeoToolActivateMgr;
 
     // Binding properties
 
@@ -137,6 +146,9 @@ ngeo.Infra3dController = class {
    * Called on initialization of the controller.
    */
   $onInit() {
+    const infra3DToolActivate = new ngeo.ToolActivate(this, 'active');
+    this.ngeoToolActivateMgr_.registerTool('mapTools', infra3DToolActivate);
+
     // Initialize location with current center of map.
     this.location = this.map.getView().getCenter();
 
