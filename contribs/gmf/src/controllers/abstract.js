@@ -150,15 +150,12 @@ gmf.AbstractController = function(config, $scope, $injector) {
 
     // Reload themes and background layer when login status changes.
     this.gmfThemes_.loadThemes(roleId);
-
-    if (evt.type !== gmf.AuthenticationEventType.READY) {
-      this.updateCurrentTheme_(previousThemeName);
-    }
+    this.updateCurrentTheme_(previousThemeName);
     this.setDefaultBackground_(null);
     this.updateHasEditableLayers_();
   };
 
-  ol.events.listen(gmfAuthentication, gmf.AuthenticationEventType.READY, userChange);
+  ol.events.listenOnce(gmfAuthentication, gmf.AuthenticationEventType.READY, userChange);
   ol.events.listen(gmfAuthentication, gmf.AuthenticationEventType.LOGIN, userChange);
   ol.events.listen(gmfAuthentication, gmf.AuthenticationEventType.LOGOUT, userChange);
 
