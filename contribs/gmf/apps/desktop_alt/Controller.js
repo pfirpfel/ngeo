@@ -25,6 +25,7 @@ import Circle from 'ol/style/Circle.js';
 import Fill from 'ol/style/Fill.js';
 import Stroke from 'ol/style/Stroke.js';
 import Icon from 'ol/style/Icon.js';
+import RegularShape from 'ol/style/RegularShape.js';
 import Raven from 'raven-js/src/raven.js';
 import RavenPluginsAngular from 'raven-js/plugins/angular.js';
 
@@ -134,12 +135,23 @@ class Controller extends AbstractDesktopController {
       stroke
     });
 
+    const gmfCoordinatesLayerNameStyle = new Style({
+      image: new RegularShape({
+        stroke: new Stroke({color: [255, 0, 0, 0.7], width: 2}),
+        points: 4,
+        radius: 8,
+        radius2: 0,
+        angle: 0
+      })
+    });
+
     /**
      * @type {Object.<string, ol.style.Style>} Map of styles for search overlay.
      * @export
      */
     this.searchStyles = {
-      'default': default_search_style
+      'default': default_search_style,
+      'gmfCoordinatesLayerName': gmfCoordinatesLayerNameStyle
     };
 
     // Allow angular-gettext-tools to collect the strings to translate
